@@ -6,33 +6,41 @@ import StoryGrid from "@/components/StoryGrid";
 import CultureStrip from "@/components/CultureStrip";
 import VideoFeature from "@/components/VideoFeature";
 import Footer from "@/components/Footer";
-
 import { focusStory, topStories } from "@/lib/content";
+import { homeJsonLd } from "@/lib/Seo";
 
 export default function HomePage() {
-  return (
-      <>
-        <Header />
-        <main>
-          <Hero />
+    const jsonLd = homeJsonLd();
 
-          <Section>
-            <FocusFeature story={focusStory} />
-          </Section>
+    return (
+        <>
+            {/* JSON-LD for SEO */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
 
-          <Section>
-            <StoryGrid stories={topStories} />
-          </Section>
+            <Header />
+            <main>
+                <Hero />
 
-          <Section className="py-10 sm:py-12">
-            <CultureStrip />
-          </Section>
+                <Section>
+                    <FocusFeature story={focusStory} />
+                </Section>
 
-          <Section>
-            <VideoFeature />
-          </Section>
-        </main>
-        <Footer />
-      </>
-  );
+                <Section>
+                    <StoryGrid stories={topStories} />
+                </Section>
+
+                <Section className="py-10 sm:py-12">
+                    <CultureStrip />
+                </Section>
+
+                <Section>
+                    <VideoFeature />
+                </Section>
+            </main>
+            <Footer />
+        </>
+    );
 }

@@ -1,26 +1,30 @@
 import type { Config } from "tailwindcss";
 
 export default {
-    content: [
-        "./app/**/*.{js,ts,jsx,tsx,mdx}",
-        "./components/**/*.{js,ts,jsx,tsx,mdx}",
-        "./lib/**/*.{js,ts,jsx,tsx,mdx}",
-    ],
+    content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./lib/**/*.{ts,tsx}"],
     theme: {
         extend: {
             colors: {
-                ink: "var(--ink-black)",
-                paper: "var(--paper-white)",
-                accent: "var(--afro-green)",
-                divider: "var(--divider-gray)",
-                muted: "var(--muted)",
+                bg: "hsl(var(--bg))",
+                card: "hsl(var(--card))",
+                ink: "hsl(var(--ink))",
+                muted: "hsl(var(--muted))",
+                border: "hsl(var(--border))",
+                accent: "hsl(var(--accent))",
+                accent2: "hsl(var(--accent2))",
+                ring: "hsl(var(--ring))",
             },
             fontFamily: {
                 heading: ["var(--font-heading)", "ui-sans-serif", "system-ui"],
                 body: ["var(--font-body)", "ui-sans-serif", "system-ui"],
             },
             boxShadow: {
-                soft: "0 10px 30px rgba(11,15,20,0.08)",
+                soft: "0 12px 40px rgba(0,0,0,0.18)",
+                glass: "0 10px 40px rgba(0,0,0,0.25)",
+            },
+            borderRadius: {
+                xl2: "1.25rem",
+                xl3: "1.75rem",
             },
         },
     },

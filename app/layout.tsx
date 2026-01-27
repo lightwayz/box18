@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import ThemeProvider from "@/components/ThemeProvider";
 import { Inter, Sora } from "next/font/google";
+import { site } from "@/lib/Seo";
 import React from "react";
 
 const inter = Inter({
@@ -16,18 +18,35 @@ const sora = Sora({
 });
 
 export const metadata: Metadata = {
-    title: "BOX18 Naija — African Football, Beyond the Pitch",
-    description:
-        "Premium editorial coverage of African football culture, music, fashion, community and business.",
+    metadataBase: new URL(site.url),
+    title: {
+        default: `${site.name} — African Football, Beyond the Pitch`,
+        template: `%s — ${site.name}`,
+    },
+    description: site.description,
+    openGraph: {
+        type: "website",
+        url: site.url,
+        title: `${site.name} — African Football, Beyond the Pitch`,
+        description: site.description,
+        images: [{ url: site.ogImage, width: 1200, height: 630, alt: site.name }],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: `${site.name} — African Football, Beyond the Pitch`,
+        description: site.description,
+        images: [site.ogImage],
+    },
+    icons: {
+        icon: "/favicon.ico",
+    },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="en">
-        <body
-            className={`${inter.variable} ${sora.variable} bg-paper text-ink font-body antialiased`}
-        >
-        {children}
+        <html lang="en" suppressHydrationWarning>
+        <body className={`${inter.variable} ${sora.variable} font-body`}>
+        <ThemeProvider>{children}</ThemeProvider>
         </body>
         </html>
     );
