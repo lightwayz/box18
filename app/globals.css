@@ -24,3 +24,17 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+:root{
+  --ink-black:#0B0F14;
+  --paper-white:#FAFAF7;
+  --afro-green:#0F8A5F;
+  --divider-gray:#E6E6E1;
+  --muted:#5B6572;
+}
+
+html, body { height: 100%; }
+
+::selection{
+  background: rgba(15, 138, 95, 0.18);
+}
+
