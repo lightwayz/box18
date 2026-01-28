@@ -1,16 +1,17 @@
+// noinspection HtmlUnknownAnchorTarget
+
 import ThemeToggle from "./ThemeToggle";
 
 const nav = [
-    { label: "Home", href: "#top" },
-    { label: "Football Events", href: "#events" },
-    { label: "Talent Spotlight", href: "#talent" },
-    { label: "Business", href: "#business" },
-    { label: "Culture & Lifestyle", href: "#culture" },
-    { label: "Diaspora Roots", href: "#diaspora" },
-    { label: "Exclusives", href: "#exclusives" },
-    { label: "Interviews", href: "#interviews" },
-    { label: "Podcast", href: "#podcast" },
-    { label: "About", href: "#about" },
+    { label: "Home", href: "/" },
+    { label: "Stories", href: "/stories" },
+    { label: "Focus", href: "/focus" },
+    { label: "Video", href: "/video" },
+    { label: "Talent Spotlight", href: "/category/talent" },
+    { label: "Business", href: "/category/business" },
+    { label: "Culture & Lifestyle", href: "/category/culture" },
+    { label: "Diaspora Roots", href: "/category/diaspora" },
+    { label: "About", href: "/about" },
 ];
 
 export default function Header() {
@@ -38,7 +39,7 @@ export default function Header() {
 
                 {/* Actions */}
                 <div className="flex items-center gap-3">
-                    {/* Search (simple + premium; we can upgrade later) */}
+                    {/* Search (simple and premium; we can upgrade later) */}
                     <a
                         href="#search"
                         className="hidden sm:inline-flex items-center rounded-full border border-border glass px-4 py-2 text-sm text-muted hover:text-ink"

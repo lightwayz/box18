@@ -17,9 +17,14 @@ export default function StoryGrid({ stories }: { stories: Story[] }) {
             </div>
 
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                {stories.map((s) => (
-                    <StoryCard key={s.id} story={s} />
+                {stories.map((s, idx) => (
+                    <StoryCard
+                        key={s.id}
+                        story={s}
+                        variant={idx === 1 || idx === 3 ? "culture" : "editorial"}
+                    />
                 ))}
+
             </div>
         </div>
     );
