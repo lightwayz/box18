@@ -1,6 +1,11 @@
-@import "tailwindcss/preflight";
-@tailwind/utilities';
+@import "tailwindcss";
+
+/* keep your custom css below */
+
+@tailwind base;
+@tailwind components;
 @tailwind utilities;
+
 
 /* -----------------------------
    THEME TOKENS (Light + Dark)
@@ -9,6 +14,9 @@
    - signature accents (Foxiz-ish energy)
    - "Apple-style" gradient + glass
 -------------------------------- */
+html {
+  scroll-behavior: smooth;
+}
 
 :root {
   /* Light mode (clean paper) */
