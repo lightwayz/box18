@@ -1,10 +1,16 @@
+
+"use client";
+
+
 import Image from "next/image";
 import LazyYouTube from "./LazyYouTube";
 import { videoStories } from "@/lib/content";
+import { useState } from "react";
+
 
 export default function VideoRail() {
-    const featured = videoStories[0];
-    const nextUp = videoStories.slice(1, 4);
+    const [featured, setFeatured] = useState(videoStories[0]);
+    const nextUp = videoStories.filter((v) => v.id !== featured.id).slice(0, 3);
 
     return (
         <section id="video" className="card p-6 sm:p-8">
@@ -68,12 +74,13 @@ export default function VideoRail() {
 
                     <div className="mt-3 space-y-3">
                         {nextUp.map((s) => (
-                            <a
+                            <button
                                 key={s.id}
-                                href={s.href}
-                                className="block rounded-2xl border border-border glass p-3 hover:opacity-95"
+                                type="button"
+                                onClick={() => setFeatured(s)}
+                                className="block w-full text-left rounded-2xl border border-border glass p-3 hover:opacity-95"
                             >
-                                <div className="flex gap-3">
+                            <div className="flex gap-3">
                                     <div className="relative h-16 w-24 shrink-0 overflow-hidden rounded-xl border border-border">
                                         <Image
                                             src={s.image}
@@ -96,7 +103,7 @@ export default function VideoRail() {
                                         </div>
                                     </div>
                                 </div>
-                            </a>
+                            </button>
                         ))}
                     </div>
                 </div>

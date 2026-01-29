@@ -114,12 +114,12 @@ export const videoStories: Story[] = [
         location: "Banjul",
         title: "The Gambia Watch Party: When Football Becomes a Choir",
         caption: "A street-side screen, a full crowd, and chants that carry past the final whistle.",
-        image: "/images/video1.jpg",
+        image: "/images/video2.jpg",
         imageAlt: "Fans watching a match at night outdoors",
         date: "Jan 27, 2026",
         author: "BOX18 Field Notes",
         href: "#",
-        video: { youtubeId: "dQw4w9WgXcQ", duration: "6:24" },
+        video: { youtubeId: "Ziq9RRNyEUU", duration: "6:24" },
     },
     {
         id: "v2",
@@ -129,12 +129,12 @@ export const videoStories: Story[] = [
         location: "Lagos",
         title: "Jersey to Streetwear: The Style Codes",
         caption: "How kits become daily uniform — on buses, markets, and music sets.",
-        image: "/images/video2.jpg",
+        image: "/images/video1.jpg",
         imageAlt: "People wearing jerseys in a street scene",
         date: "Jan 27, 2026",
         author: "BOX18 Visuals",
         href: "#",
-        video: { youtubeId: "dQw4w9WgXcQ", duration: "4:58" },
+        video: { youtubeId: "t9Hb_-PF4f4", duration: "4:58" },
     },
     {
         id: "v3",
@@ -149,7 +149,7 @@ export const videoStories: Story[] = [
         date: "Jan 27, 2026",
         author: "BOX18 Explainers",
         href: "#",
-        video: { youtubeId: "dQw4w9WgXcQ", duration: "7:11" },
+        video: { youtubeId: "o-mLYrERBjw", duration: "7:11" },
     },
 ];
 
