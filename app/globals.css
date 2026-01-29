@@ -6,41 +6,37 @@
 @tailwind components;
 @tailwind utilities;
 
-
 /* -----------------------------
    THEME TOKENS (Light + Dark)
-   Inspired by premium editorial sites:
-   - calm base (Versus)
-   - signature accents (Foxiz-ish energy)
-   - "Apple-style" gradient + glass
+   Baseline: Foxiz Focus-like reliability
+   Layer: BOX18 accents (green + warm gold)
 -------------------------------- */
 html {
   scroll-behavior: smooth;
 }
 
 :root {
-  /* Light mode (clean paper) */
-  --bg: 45 27% 98%;
+  /* Light mode (clean editorial baseline) */
+  --bg: 0 0% 100%;
   --card: 0 0% 100%;
-  --ink: 220 25% 12%;
-  --muted: 220 10% 45%;
-  --border: 220 10% 88%;
+  --ink: 222 47% 11%;
+  --muted: 215 16% 45%;
+  --border: 214 20% 90%;
 
-  /* Brand accents (choose 2; keep consistent) */
-  /* Afro Green + Copper Gold (unique, premium) */
+  /* Brand accents (keep consistent) */
   --accent: 155 80% 32%;   /* green */
-  --accent2: 34 88% 48%;   /* warm gold */
+  --accent2: 34 92% 52%;   /* warm gold/orange */
 
   --ring: 155 80% 32%;
 }
 
 .dark {
-  /* Dark mode (your current look, but richer) */
-  --bg: 220 30% 5%;
-  --card: 220 25% 8%;
-  --ink: 0 0% 98%;
-  --muted: 220 12% 70%;
-  --border: 220 18% 18%;
+  /* Dark mode (deep editorial, less “glow”) */
+  --bg: 222 47% 7%;
+  --card: 222 35% 10%;
+  --ink: 210 40% 96%;
+  --muted: 215 18% 72%;
+  --border: 222 24% 20%;
 
   --accent: 155 85% 44%;
   --accent2: 34 90% 55%;
@@ -48,7 +44,8 @@ html {
   --ring: 155 85% 44%;
 }
 
-html, body {
+html,
+body {
   height: 100%;
 }
 
@@ -57,7 +54,7 @@ body {
   color: hsl(var(--ink));
 }
 
-/* Apple-style “ambient gradients” */
+/* Ambient gradients (keep, but more subtle so baseline feels Foxiz-clean) */
 .bg-ambient {
   position: relative;
   isolation: isolate;
@@ -65,26 +62,30 @@ body {
 .bg-ambient::before {
   content: "";
   position: absolute;
-  inset: -200px;
+  inset: -220px;
   z-index: -1;
   background:
-          radial-gradient(800px 400px at 15% 10%, hsla(var(--accent) / 0.20), transparent 60%),
-          radial-gradient(700px 380px at 80% 20%, hsla(var(--accent2) / 0.18), transparent 60%),
-          radial-gradient(900px 520px at 40% 95%, hsla(var(--accent) / 0.10), transparent 60%);
-  filter: blur(18px);
+          radial-gradient(800px 420px at 12% 8%, hsla(var(--accent) / 0.10), transparent 62%),
+          radial-gradient(720px 420px at 86% 18%, hsla(var(--accent2) / 0.08), transparent 62%),
+          radial-gradient(900px 520px at 40% 96%, hsla(var(--accent) / 0.06), transparent 65%);
+  filter: blur(16px);
 }
 
-/* Glass effect (Apple-ish) */
+/* Glass effect (more solid: fixes “too transparent” modal issue) */
 .glass {
-  background: hsla(var(--card) / 0.65);
-  border: 1px solid hsla(var(--border) / 0.65);
-  backdrop-filter: blur(12px);
+  background: hsla(var(--card) / 0.92);
+  border: 1px solid hsla(var(--border) / 0.90);
+  backdrop-filter: blur(10px);
+}
+.dark .glass {
+  background: hsla(var(--card) / 0.88);
+  border: 1px solid hsla(var(--border) / 0.85);
 }
 
-/* Premium card look */
+/* Premium card look (keep, but let border do the work like Foxiz) */
 .card {
   background: hsl(var(--card));
-  border: 1px solid hsla(var(--border) / 0.9);
+  border: 1px solid hsla(var(--border) / 0.95);
   border-radius: 1.75rem;
 }
 
@@ -93,14 +94,17 @@ body {
   text-decoration: underline;
   text-decoration-thickness: 0.22em;
   text-underline-offset: 0.12em;
-  text-decoration-color: hsla(var(--accent) / 0.35);
+  text-decoration-color: hsla(var(--accent) / 0.30);
 }
 
 /* Better focus ring */
 :focus-visible {
-  outline: 2px solid hsla(var(--ring) / 0.6);
+  outline: 2px solid hsla(var(--ring) / 0.55);
   outline-offset: 3px;
 }
 
 /* Smooth */
-* { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
