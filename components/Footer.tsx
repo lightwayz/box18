@@ -11,7 +11,7 @@ export default function Footer() {
                         <a
                             href="/"
                             className="
-    inline-flex h-14 w-14 items-center justify-center
+    inline-flex h-16 w-16 items-center justify-center
     rounded-full border border-border
     bg-white dark:bg-white
     shadow-sm
@@ -21,13 +21,11 @@ export default function Footer() {
                             <Image
                                 src="/brand/box18-mark.png"
                                 alt=""
-                                width={80}
-                                height={80}
-                                className="h-9 w-9 object-contain"
+                                width={120}
+                                height={120}
+                                className="h-11 w-11 object-contain"
                             />
                         </a>
-
-
 
                         <p className="mt-4 text-sm text-muted max-w-sm">
                             We cover African football as culture infrastructure — where the game shapes sound,

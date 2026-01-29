@@ -54,7 +54,7 @@ export default function Header() {
                     {/* Brand mark */}
                     <span
                         className="
-      inline-flex h-11 w-11 items-center justify-center
+      inline-flex h-12 w-12 items-center justify-center
       rounded-full border border-border
       bg-white dark:bg-white
       shadow-sm
@@ -63,18 +63,19 @@ export default function Header() {
     <Image
         src="/brand/box18-mark.png"
         alt=""
-        width={64}
-        height={64}
-        className="h-8 w-8 object-contain"
+        width={96}
+        height={96}
+        className="h-9 w-9 object-contain"
         priority
     />
   </span>
 
                     {/* Wordmark */}
-                    <span className="text-lg font-bold">BOX18</span>
-                    <span className="text-lg text-muted">Naija</span>
+                    <span className="flex items-baseline gap-1">
+  <span className="text-lg font-bold tracking-tight">BOX18</span>
+  <span className="text-lg text-muted tracking-tight">Naija</span>
+</span>
                 </a>
-
 
                 {/* Desktop nav */}
                 <nav className="hidden lg:flex items-center gap-5 text-sm">
@@ -157,7 +158,7 @@ export default function Header() {
                 </div>
             </div>
 
-            <SearchModal open={searchOpen} onClose={() => setSearchOpen(false)} />
+            <SearchModal open={searchOpen} onCloseAction={() => setSearchOpen(false)} />
         </header>
     );
 }
