@@ -1,161 +1,324 @@
-export type StoryCategory = "Football" | "Culture" | "Business" | "Focus" | "Video";
+
+export type Pillar = "Football" | "Culture" | "Business" | "Tech" | "Diaspora" | "Talent";
+export type Format = "Essay" | "Interview" | "Photo Essay" | "Video" | "Data Brief";
 
 export type Story = {
     id: string;
-    category: StoryCategory;
     title: string;
-    excerpt: string;
-    image: string; // use local /public or remote
+
+    // editorial identity
+    pillar: Pillar;       // 1 primary identity
+    format: Format;       // 1 content format
+    topics: string[];     // 1–3 secondary topics (tags)
+
+    // “real reporting” signals
+    location?: string;    // Lagos, Accra, Banjul, London…
     date: string;
     author: string;
+
+    // media-first
+    image: string;
+    imageAlt?: string;
+    caption?: string;     // one strong image-led line
+    video?: {
+        youtubeId: string;
+        duration?: string;  // "6:24"
+    };
+
     href: string;
 };
 
+// ✅ Focus story (hero)
 export const focusStory: Story = {
     id: "focus-001",
-    category: "Focus",
+    pillar: "Football",
+    format: "Essay",
+    topics: ["Fashion", "Music", "Identity"],
+    location: "West Africa + Diaspora",
     title: "How African Football Inspires Fashion and Music",
-    excerpt:
+    caption:
         "From matchday chants to streetwear drops, the game shapes identity, sound, and style across the continent and diaspora.",
-    image: "/images/focus.jpg", // put any image at public/images/focus.jpg
+    image: "/images/focus.jpg",
+    imageAlt: "A stadium crowd with a pitch view",
     date: "Jan 26, 2026",
     author: "BOX18 Editorial",
     href: "#",
 };
 
+// ✅ Top Stories (grid)
 export const topStories: Story[] = [
     {
         id: "s1",
-        category: "Football",
+        pillar: "Football",
+        format: "Photo Essay",
+        topics: ["Fan Culture", "Community", "Atmosphere"],
+        location: "Lagos",
         title: "The Stadium Is a Stage: Why African Fans Lead Global Football Culture",
-        excerpt: "The chants, the color, the choreography — a masterclass in community expression.",
+        caption: "The chants, the color, the choreography — a masterclass in community expression.",
         image: "/images/story1.jpg",
+        imageAlt: "Fans gathered around a local pitch",
         date: "Jan 26, 2026",
         author: "BOX18 Editorial",
         href: "#",
     },
     {
         id: "s2",
-        category: "Culture",
+        pillar: "Culture",
+        format: "Essay",
+        topics: ["Streetwear", "Jerseys", "Style Codes"],
+        location: "Accra",
         title: "Jersey as Streetwear: When Club Colors Become Fashion Codes",
-        excerpt: "How everyday style adopts football symbolism without needing a match ticket.",
+        caption: "Everyday style adopts football symbolism without needing a match ticket.",
         image: "/images/story2.jpg",
+        imageAlt: "A player in motion on a training ground",
         date: "Jan 26, 2026",
         author: "BOX18 Editorial",
         href: "#",
     },
     {
         id: "s3",
-        category: "Business",
+        pillar: "Business",
+        format: "Data Brief",
+        topics: ["Academies", "Agents", "Transfers"],
+        location: "Nigeria • Ghana",
         title: "The Talent Pipeline Economy: Academies, Agents, and Global Demand",
-        excerpt: "A clear look at the money flow — and how local systems can win long-term.",
+        caption: "A clear look at the money flow — and how local systems can win long-term.",
         image: "/images/story3.jpg",
+        imageAlt: "Two kids smiling with a football",
         date: "Jan 26, 2026",
         author: "BOX18 Editorial",
         href: "#",
     },
     {
         id: "s4",
-        category: "Culture",
+        pillar: "Culture",
+        format: "Video",
+        topics: ["Afrobeats", "Celebration", "Lyrics"],
+        location: "London • Lagos",
         title: "From Street Pitches to Soundtracks: Football’s Influence on Afrobeats",
-        excerpt: "Why the game shows up in lyrics, videos, and the rhythm of celebration.",
+        caption: "Why the game shows up in lyrics, videos, and the rhythm of celebration.",
         image: "/images/story4.jpg",
+        imageAlt: "A football-themed performance scene",
         date: "Jan 26, 2026",
         author: "BOX18 Editorial",
         href: "#",
     },
 ];
 
-export const categories: Record<"talent" | "business" | "culture" | "diaspora", Story[]> = {
+export const videoStories: Story[] = [
+    {
+        id: "v1",
+        pillar: "Culture",
+        format: "Video",
+        topics: ["Fan Culture", "Watch Party"],
+        location: "Banjul",
+        title: "The Gambia Watch Party: When Football Becomes a Choir",
+        caption: "A street-side screen, a full crowd, and chants that carry past the final whistle.",
+        image: "/images/video1.jpg",
+        imageAlt: "Fans watching a match at night outdoors",
+        date: "Jan 27, 2026",
+        author: "BOX18 Field Notes",
+        href: "#",
+        video: { youtubeId: "dQw4w9WgXcQ", duration: "6:24" },
+    },
+    {
+        id: "v2",
+        pillar: "Culture",
+        format: "Video",
+        topics: ["Jersey Culture", "Streetwear"],
+        location: "Lagos",
+        title: "Jersey to Streetwear: The Style Codes",
+        caption: "How kits become daily uniform — on buses, markets, and music sets.",
+        image: "/images/video2.jpg",
+        imageAlt: "People wearing jerseys in a street scene",
+        date: "Jan 27, 2026",
+        author: "BOX18 Visuals",
+        href: "#",
+        video: { youtubeId: "dQw4w9WgXcQ", duration: "4:58" },
+    },
+    {
+        id: "v3",
+        pillar: "Business",
+        format: "Video",
+        topics: ["Academies", "Transfers"],
+        location: "Abuja",
+        title: "Academies & Transfers: The Pipeline Explained",
+        caption: "A simple breakdown of the pathway — and where value leaks happen.",
+        image: "/images/video3.jpg",
+        imageAlt: "Youth training session on a pitch",
+        date: "Jan 27, 2026",
+        author: "BOX18 Explainers",
+        href: "#",
+        video: { youtubeId: "dQw4w9WgXcQ", duration: "7:11" },
+    },
+];
+
+type CategoryKey = "talent" | "business" | "tech" | "culture" | "diaspora";
+
+// ✅ Sections (each section is not the same as pillar — it’s homepage grouping)
+export const categories: Record<CategoryKey, Story[]> = {
     talent: [
         {
             id: "t1",
-            category: "Football",
+            pillar: "Talent",
+            format: "Interview",
+            topics: ["Pathways", "Grassroots", "Breakthrough"],
+            location: "Kano",
             title: "Talent Spotlight: The Next Wave from the Streets to the World",
-            excerpt: "Profiles of emerging players and the systems shaping their rise.",
+            caption: "Profiles of emerging players and the systems shaping their rise.",
             image: "/images/story2.jpg",
+            imageAlt: "A young player training outdoors",
             date: "Jan 27, 2026",
             author: "BOX18 Editorial",
             href: "/category/talent",
         },
         {
             id: "t2",
-            category: "Football",
+            pillar: "Football",
+            format: "Data Brief",
+            topics: ["Scouting", "Academies", "Pipeline"],
+            location: "Abuja",
             title: "Scouts, Academies, and the Hidden Pipeline",
-            excerpt: "What actually creates a world-class player in African contexts.",
+            caption: "What actually creates a world-class player in African contexts.",
             image: "/images/story1.jpg",
+            imageAlt: "A pitch-side scene at training",
             date: "Jan 27, 2026",
             author: "BOX18 Editorial",
             href: "/category/talent",
         },
     ],
+
     business: [
         {
             id: "b1",
-            category: "Business",
+            pillar: "Business",
+            format: "Essay",
+            topics: ["Sponsorship", "Transfers", "Value"],
+            location: "Lagos",
             title: "The Business of African Football: Local Systems, Global Demand",
-            excerpt: "Transfers, sponsorships, and sustainable value creation.",
+            caption: "Transfers, sponsorships, and sustainable value creation.",
             image: "/images/story3.jpg",
+            imageAlt: "A stadium-wide view",
             date: "Jan 27, 2026",
             author: "BOX18 Editorial",
             href: "/category/business",
         },
         {
             id: "b2",
-            category: "Business",
+            pillar: "Business",
+            format: "Photo Essay",
+            topics: ["Community Clubs", "Local Economy", "Supporters"],
+            location: "Banjul",
             title: "Community Clubs as Micro-Economies",
-            excerpt: "How community football organizes resources, people, and influence.",
+            caption: "How community football organizes resources, people, and influence.",
             image: "/images/focus.jpg",
+            imageAlt: "A community football scene",
             date: "Jan 27, 2026",
             author: "BOX18 Editorial",
             href: "/category/business",
         },
     ],
+
+    tech: [
+        {
+            id: "tech1",
+            pillar: "Tech",
+            format: "Data Brief",
+            topics: ["Scouting Tools", "Analytics", "Platforms"],
+            location: "Nairobi",
+            title: "Technology Reshaping African Football",
+            caption: "Data, scouting tools, media platforms, and fan engagement.",
+            image: "/images/story3.jpg",
+            imageAlt: "A stadium and pitch captured from above",
+            date: "Jan 27, 2026",
+            author: "BOX18 Editorial",
+            href: "/category/tech",
+        },
+        {
+            id: "tech2",
+            pillar: "Tech",
+            format: "Essay",
+            topics: ["Distribution", "Visibility", "Creators"],
+            location: "Johannesburg",
+            title: "From Grassroots to Global: Platforms Powering Visibility",
+            caption: "How technology amplifies talent and culture.",
+            image: "/images/story2.jpg",
+            imageAlt: "A player in action on a green field",
+            date: "Jan 27, 2026",
+            author: "BOX18 Editorial",
+            href: "/category/tech",
+        },
+    ],
+
     culture: [
         {
             id: "c1",
-            category: "Culture",
+            pillar: "Culture",
+            format: "Photo Essay",
+            topics: ["Jerseys", "Streetwear", "Identity"],
+            location: "Lagos",
             title: "Culture & Lifestyle: Jerseys, Streetwear, and Identity",
-            excerpt: "Football kits as everyday fashion language.",
+            caption: "Football kits as everyday fashion language.",
             image: "/images/story4.jpg",
+            imageAlt: "A jersey and fan-culture scene",
             date: "Jan 27, 2026",
             author: "BOX18 Editorial",
             href: "/category/culture",
         },
         {
             id: "c2",
-            category: "Culture",
+            pillar: "Culture",
+            format: "Video",
+            topics: ["Chants", "Drums", "Celebration"],
+            location: "Accra",
             title: "Matchday Sound: Chants, Drums, and Celebration",
-            excerpt: "Why African football atmosphere is global culture.",
+            caption: "Why African football atmosphere is global culture.",
             image: "/images/culture.jpg",
+            imageAlt: "A child playing football outdoors",
             date: "Jan 27, 2026",
             author: "BOX18 Editorial",
             href: "/category/culture",
         },
     ],
+
     diaspora: [
         {
             id: "d1",
-            category: "Culture",
+            pillar: "Diaspora",
+            format: "Essay",
+            topics: ["Belonging", "Memory", "Community"],
+            location: "London",
             title: "Diaspora Roots: Football as Memory and Belonging",
-            excerpt: "How communities abroad keep identity alive through the game.",
+            caption: "How communities abroad keep identity alive through the game.",
             image: "/images/story1.jpg",
+            imageAlt: "A community gathering around football",
             date: "Jan 27, 2026",
             author: "BOX18 Editorial",
             href: "/category/diaspora",
         },
         {
             id: "d2",
-            category: "Culture",
+            pillar: "Diaspora",
+            format: "Interview",
+            topics: ["Style", "Sound", "Returns"],
+            location: "Lagos ↔ London",
             title: "From Lagos to London: The Culture Loop",
-            excerpt: "Where style, sound, and football travel — and return amplified.",
+            caption: "Where style, sound, and football travel — and return amplified.",
             image: "/images/story2.jpg",
+            imageAlt: "A player mid-kick on a pitch",
             date: "Jan 27, 2026",
             author: "BOX18 Editorial",
             href: "/category/diaspora",
         },
     ],
 };
+
+export const allStories: Story[] = [
+    focusStory,
+    ...topStories,
+    ...videoStories,
+    ...Object.values(categories).flat(),
+];
 
 
 export const trending = [
@@ -165,4 +328,3 @@ export const trending = [
     "#JerseyCulture",
     "#DiasporaRoots",
 ];
-

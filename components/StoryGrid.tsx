@@ -1,6 +1,18 @@
 import type { Story } from "@/lib/content";
 import StoryCard from "./StoryCard";
 
+function pickVariant(story: Story): "editorial" | "culture" | "video" {
+    // ✅ Video is a format (not a category)
+    if (story.format === "Video") return "video";
+
+    // ✅ Culture styling is a treatment, not a section name
+    if (story.pillar === "Culture" || story.pillar === "Diaspora") return "culture";
+
+    if (story.pillar === "Talent") return "editorial";
+
+    return "editorial";
+}
+
 export default function StoryGrid({ stories }: { stories: Story[] }) {
     return (
         <div id="stories">
@@ -17,14 +29,9 @@ export default function StoryGrid({ stories }: { stories: Story[] }) {
             </div>
 
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                {stories.map((s, idx) => (
-                    <StoryCard
-                        key={s.id}
-                        story={s}
-                        variant={idx === 1 || idx === 3 ? "culture" : "editorial"}
-                    />
+                {stories.map((s) => (
+                    <StoryCard key={s.id} story={s} variant={pickVariant(s)} />
                 ))}
-
             </div>
         </div>
     );

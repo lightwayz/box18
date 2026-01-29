@@ -15,7 +15,14 @@ const meta: Record<string, { title: string; subtitle: string; variant: "editoria
         title: "Business",
         subtitle: "Money flow, academies, transfers, and deals.",
         variant: "editorial",
+
     },
+    tech: {
+        title: "Technology",
+        subtitle: "Platforms, data, and tools shaping African football.",
+        variant: "editorial",
+    },
+
     culture: {
         title: "Culture & Lifestyle",
         subtitle: "Jerseys, streetwear, sound, and identity.",

@@ -9,11 +9,28 @@ import CultureStrip from "@/components/CultureStrip";
 import VideoRail from "@/components/VideoRail";
 import Footer from "@/components/Footer";
 
+import { curate } from "@/lib/curation";
 import { focusStory, topStories, categories } from "@/lib/content";
 import { homeJsonLd } from "@/lib/Seo";
 
 export default function HomePage() {
     const jsonLd = homeJsonLd();
+
+    const curatedTopStories = curate(topStories, {
+        rowSize: 4,
+        maxSamePillarInRow: 2,
+        aboveFoldCount: 8,
+        maxSamePillarAboveFold: 3,
+        minVideosAboveFold: 1,
+    });
+
+    const curated = {
+        talent: curate(categories.talent, { rowSize: 2, maxSamePillarInRow: 1 }),
+        business: curate(categories.business, { rowSize: 2, maxSamePillarInRow: 1 }),
+        tech: curate(categories.tech, { rowSize: 2, maxSamePillarInRow: 1 }),
+        culture: curate(categories.culture, { rowSize: 2, maxSamePillarInRow: 1 }),
+        diaspora: curate(categories.diaspora, { rowSize: 2, maxSamePillarInRow: 1 }),
+    };
 
     return (
         <>
@@ -29,22 +46,24 @@ export default function HomePage() {
                 <Hero />
 
                 <Section>
-                    <HeroCard story={focusStory} />
+                    <div id="focus">
+                        <HeroCard story={focusStory} />
+                    </div>
                 </Section>
 
                 <Section>
-                    <StoryGrid stories={topStories} />
+                    <StoryGrid stories={curatedTopStories} />
                 </Section>
 
                 <Section>
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                        <div className="lg:col-span-8 space-y-12">
+                    <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
+                        <div className="space-y-12 lg:col-span-8">
                             <CategoryRow
                                 id="talent"
                                 title="Talent Spotlight"
                                 subtitle="Profiles, pathways, and the next wave."
                                 href="/category/talent"
-                                stories={categories.talent}
+                                stories={curated.talent}
                                 variant="editorial"
                             />
 
@@ -53,7 +72,16 @@ export default function HomePage() {
                                 title="Business"
                                 subtitle="Money flow, academies, transfers, and deals."
                                 href="/category/business"
-                                stories={categories.business}
+                                stories={curated.business}
+                                variant="editorial"
+                            />
+
+                            <CategoryRow
+                                id="tech"
+                                title="Technology"
+                                subtitle="Platforms, data, and tools shaping the game."
+                                href="/category/tech"
+                                stories={curated.tech}
                                 variant="editorial"
                             />
 
@@ -62,7 +90,7 @@ export default function HomePage() {
                                 title="Culture & Lifestyle"
                                 subtitle="Jerseys, streetwear, sound, and identity."
                                 href="/category/culture"
-                                stories={categories.culture}
+                                stories={curated.culture}
                                 variant="culture"
                             />
 
@@ -71,7 +99,7 @@ export default function HomePage() {
                                 title="Diaspora Roots"
                                 subtitle="Football as memory, belonging, and movement."
                                 href="/category/diaspora"
-                                stories={categories.diaspora}
+                                stories={curated.diaspora}
                                 variant="culture"
                             />
                         </div>
