@@ -1,6 +1,6 @@
-
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 
@@ -8,30 +8,22 @@ import ThemeToggle from "./ThemeToggle";
 import SearchModal from "./SearchModal";
 import useScrollSpy from "./useScrollSpy";
 
-const nav = [
+const mainNav = [
     { label: "Home", href: "/" },
-
-    // Page routes
     { label: "Stories", href: "/stories" },
     { label: "Focus", href: "/focus" },
     { label: "Video", href: "/video" },
     { label: "About", href: "/about" },
-
-    // Category routes
-    { label: "Talent Spotlight", href: "/category/talent" },
-    { label: "Business", href: "/category/business" },
-    { label: "Culture & Lifestyle", href: "/category/culture" },
-    { label: "Diaspora Roots", href: "/category/diaspora" },
 ];
 
-// Optional: homepage section anchors for scroll-spy (only meaningful on "/")
-const homeAnchors = [
-    { label: "Top Stories", href: "#stories", id: "stories" },
-    { label: "Talent", href: "#talent", id: "talent" },
-    { label: "Business", href: "#business", id: "business" },
-    { label: "Culture", href: "#culture", id: "culture" },
-    { label: "Diaspora", href: "#diaspora", id: "diaspora" },
-    { label: "Watch Party", href: "#video", id: "video" },
+const sections = [
+    { label: "Top Stories", anchor: "stories", route: "/stories" },
+    { label: "Talent Spotlight", anchor: "talent", route: "/category/talent" },
+    { label: "Business", anchor: "business", route: "/category/business" },
+    { label: "Technology", anchor: "tech", route: "/category/tech" },
+    { label: "Culture & Lifestyle", anchor: "culture", route: "/category/culture" },
+    { label: "Diaspora Roots", anchor: "diaspora", route: "/category/diaspora" },
+    { label: "Watch Party", anchor: "video", route: "/video" },
 ];
 
 export default function Header() {
@@ -39,30 +31,54 @@ export default function Header() {
     const pathname = usePathname();
     const isHome = pathname === "/";
 
-    // Scroll spy only matters on homepage, for anchors
+    // Scroll spy only matters on homepage anchors
     const spy = useScrollSpy(
-        ["stories", "talent", "business", "culture", "diaspora", "video", "about"],
+        ["stories", "talent", "business", "tech", "culture", "diaspora", "video"],
         140
     );
 
     const linkClass = (active: boolean) =>
-        [
-            "transition-colors",
-            active ? "text-ink" : "text-muted hover:text-ink",
-        ].join(" ");
+        ["transition-colors", active ? "text-ink" : "text-muted hover:text-ink"].join(" ");
+
+    const sectionHref = (s: (typeof sections)[number]) => (isHome ? `#${s.anchor}` : s.route);
 
     return (
         <header className="sticky top-0 z-50 border-b border-border glass">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
-                {/* Logo */}
-                <a href="/" className="font-heading text-lg tracking-tight whitespace-nowrap">
-                    <span className="font-bold">BOX18</span>{" "}
-                    <span className="text-muted">Naija</span>
+                {/* Logo: icon badge + wordmark */}
+                <a
+                    href="/"
+                    className="inline-flex items-center gap-3 font-heading tracking-tight whitespace-nowrap"
+                    aria-label="BOX18 Naija home"
+                >
+                    {/* Brand mark */}
+                    <span
+                        className="
+      inline-flex h-11 w-11 items-center justify-center
+      rounded-full border border-border
+      bg-white dark:bg-white
+      shadow-sm
+    "
+                    >
+    <Image
+        src="/brand/box18-mark.png"
+        alt=""
+        width={64}
+        height={64}
+        className="h-8 w-8 object-contain"
+        priority
+    />
+  </span>
+
+                    {/* Wordmark */}
+                    <span className="text-lg font-bold">BOX18</span>
+                    <span className="text-lg text-muted">Naija</span>
                 </a>
+
 
                 {/* Desktop nav */}
                 <nav className="hidden lg:flex items-center gap-5 text-sm">
-                    {nav.map((item) => {
+                    {mainNav.map((item) => {
                         const isActive = item.href === pathname;
                         return (
                             <a key={item.label} href={item.href} className={linkClass(isActive)}>
@@ -71,21 +87,33 @@ export default function Header() {
                         );
                     })}
 
-                    {/* Homepage-only section quicklinks (scroll spy) */}
-                    {isHome && (
-                        <div className="ml-3 pl-3 border-l border-border flex items-center gap-4">
-                            {homeAnchors.slice(0, 3).map((a) => (
-                                <a
-                                    key={a.id}
-                                    href={a.href}
-                                    className={linkClass(spy === a.id)}
-                                    title={a.label}
-                                >
-                                    {a.label}
-                                </a>
-                            ))}
-                        </div>
-                    )}
+                    {/* Sections dropdown */}
+                    <div className="relative">
+                        <details className="group">
+                            <summary className="list-none cursor-pointer select-none text-sm text-muted hover:text-ink transition-colors">
+                                Sections
+                                <span className="ml-1 inline-block group-open:rotate-180 transition-transform">▾</span>
+                            </summary>
+
+                            <div className="absolute left-0 mt-3 w-64 rounded-2xl border border-border glass p-2 shadow-soft">
+                                {sections.map((s) => {
+                                    const active = isHome ? spy === s.anchor : pathname === s.route;
+                                    return (
+                                        <a
+                                            key={s.label}
+                                            href={sectionHref(s)}
+                                            className={[
+                                                "block rounded-xl px-3 py-2 text-sm transition-colors",
+                                                active ? "text-ink" : "text-muted hover:text-ink",
+                                            ].join(" ")}
+                                        >
+                                            {s.label}
+                                        </a>
+                                    );
+                                })}
+                            </div>
+                        </details>
+                    </div>
                 </nav>
 
                 {/* Actions */}
@@ -102,9 +130,9 @@ export default function Header() {
                     <a
                         href={isHome ? "#partner" : "/#partner"}
                         className="inline-flex items-center rounded-full border border-[hsla(var(--accent)/0.35)] glass px-4 py-2 text-sm
-                       transition-all duration-200 ease-out
-                       hover:-translate-y-0.5 hover:shadow-glass hover:border-[hsla(var(--accent)/0.55)]
-                       active:translate-y-0"
+            transition-all duration-200 ease-out
+            hover:-translate-y-0.5 hover:shadow-glass hover:border-[hsla(var(--accent)/0.55)]
+            active:translate-y-0"
                     >
                         Partner
                     </a>
@@ -114,21 +142,21 @@ export default function Header() {
             {/* Mobile nav */}
             <div className="lg:hidden border-t border-border">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 py-2 flex gap-3 overflow-x-auto text-sm text-muted">
-                    {nav.slice(0, 6).map((item) => (
+                    {mainNav.map((item) => (
                         <a key={item.label} href={item.href} className="whitespace-nowrap hover:text-ink">
                             {item.label}
                         </a>
                     ))}
-                    {isHome &&
-                        homeAnchors.slice(0, 2).map((a) => (
-                            <a key={a.id} href={a.href} className="whitespace-nowrap hover:text-ink">
-                                {a.label}
-                            </a>
-                        ))}
+
+                    {/* Mobile sections quicklinks */}
+                    {sections.slice(1, 6).map((s) => (
+                        <a key={s.label} href={sectionHref(s)} className="whitespace-nowrap hover:text-ink">
+                            {s.label}
+                        </a>
+                    ))}
                 </div>
             </div>
 
-            {/* Search modal */}
             <SearchModal open={searchOpen} onClose={() => setSearchOpen(false)} />
         </header>
     );
