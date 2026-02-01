@@ -8,40 +8,48 @@
 
 /* -----------------------------
    THEME TOKENS (Light + Dark)
-   Baseline: Foxiz Focus-like reliability
-   Layer: BOX18 accents (green + warm gold)
+   Goal: Match foxiz.io/focus
+   - Light = Foxiz Focus (navy/yellow/red, white surfaces)
+   - Dark = clean editorial dark (still Foxiz-like)
 -------------------------------- */
 html {
   scroll-behavior: smooth;
 }
 
 :root {
-  /* Light mode (clean editorial baseline) */
-  --bg: 0 0% 100%;
-  --card: 0 0% 100%;
-  --ink: 222 47% 11%;
+  /* LIGHT MODE = Foxiz Focus */
+  --bg: 0 0% 100%;          /* #ffffff */
+  --card: 0 0% 100%;        /* #ffffff */
+  --surface: 0 0% 97%;      /* ~#f8f8f8 */
+  --ink: 222 47% 11%;       /* near-black */
   --muted: 215 16% 45%;
   --border: 214 20% 90%;
 
-  /* Brand accents (keep consistent) */
-  --accent: 155 80% 32%;   /* green */
-  --accent2: 34 92% 52%;   /* warm gold/orange */
+  /* Foxiz Focus brand system */
+  --primary: 215 100% 23%;  /* #003277 (navy) */
+  --accent: 56 100% 62%;    /* #FFF43D (yellow) */
+  --danger: 359 81% 50%;    /* #E51A1D (red) */
+  --info: 200 100% 38%;     /* #0082C4 (cyan/ads) */
 
-  --ring: 155 80% 32%;
+  --ring: 215 100% 23%;
 }
 
 .dark {
-  /* Dark mode (deep editorial, less “glow”) */
+  /* DARK MODE = clean editorial dark (toggle stays) */
   --bg: 222 47% 7%;
   --card: 222 35% 10%;
+  --surface: 222 32% 12%;
   --ink: 210 40% 96%;
   --muted: 215 18% 72%;
   --border: 222 24% 20%;
 
-  --accent: 155 85% 44%;
-  --accent2: 34 90% 55%;
+  /* Keep brand cues consistent across modes */
+  --primary: 215 100% 55%;  /* brighter navy so it reads on dark */
+  --accent: 56 100% 62%;    /* same yellow */
+  --danger: 359 81% 55%;
+  --info: 200 100% 45%;
 
-  --ring: 155 85% 44%;
+  --ring: 56 100% 62%;      /* yellow ring feels Foxiz-ish on dark */
 }
 
 html,
@@ -54,7 +62,7 @@ body {
   color: hsl(var(--ink));
 }
 
-/* Ambient gradients (keep, but more subtle so baseline feels Foxiz-clean) */
+/* Ambient gradients (SUBTLE: Foxiz is clean, not glowy) */
 .bg-ambient {
   position: relative;
   isolation: isolate;
@@ -65,36 +73,42 @@ body {
   inset: -220px;
   z-index: -1;
   background:
-          radial-gradient(800px 420px at 12% 8%, hsla(var(--accent) / 0.10), transparent 62%),
-          radial-gradient(720px 420px at 86% 18%, hsla(var(--accent2) / 0.08), transparent 62%),
-          radial-gradient(900px 520px at 40% 96%, hsla(var(--accent) / 0.06), transparent 65%);
-  filter: blur(16px);
+          radial-gradient(900px 520px at 18% 10%, hsla(var(--primary) / 0.06), transparent 62%),
+          radial-gradient(700px 420px at 86% 18%, hsla(var(--accent) / 0.05), transparent 62%),
+          radial-gradient(900px 520px at 40% 96%, hsla(var(--info) / 0.04), transparent 65%);
+  filter: blur(18px);
+}
+.dark .bg-ambient::before {
+  background:
+          radial-gradient(900px 520px at 18% 10%, hsla(var(--primary) / 0.10), transparent 62%),
+          radial-gradient(700px 420px at 86% 18%, hsla(var(--accent) / 0.06), transparent 62%),
+          radial-gradient(900px 520px at 40% 96%, hsla(var(--info) / 0.06), transparent 65%);
 }
 
-/* Glass effect (more solid: fixes “too transparent” modal issue) */
+/* Glass effect (solid enough for modals; Foxiz is not too transparent) */
 .glass {
   background: hsla(var(--card) / 0.92);
   border: 1px solid hsla(var(--border) / 0.90);
   backdrop-filter: blur(10px);
 }
 .dark .glass {
-  background: hsla(var(--card) / 0.88);
+  background: hsla(var(--card) / 0.90);
   border: 1px solid hsla(var(--border) / 0.85);
 }
 
-/* Premium card look (keep, but let border do the work like Foxiz) */
+/* Cards (Foxiz-like: clean borders, less “soft glow”) */
 .card {
   background: hsl(var(--card));
   border: 1px solid hsla(var(--border) / 0.95);
-  border-radius: 1.75rem;
+  border-radius: 1.25rem;
 }
 
-/* Accent underline */
+/* Accent underline (Foxiz uses yellow accents, not green) */
 .accent-underline {
   text-decoration: underline;
   text-decoration-thickness: 0.22em;
   text-underline-offset: 0.12em;
-  text-decoration-color: hsla(var(--accent) / 0.30);
+  text-decoration-color: hsla(var(--accent) / 0.55);
 }
 
 /* Better focus ring */
