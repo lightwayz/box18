@@ -91,11 +91,10 @@ export default function NavBar() {
                     <div className="flex items-center gap-2 sm:gap-3 justify-self-end">
                         <button
                             onClick={() => setSearchOpen(true)}
-                            className="inline-flex items-center rounded-full border border-white/25 bg-white/10 px-3 py-1.5 text-xs sm:text-sm text-white/90 hover:bg-white/15 hover:text-white transition"
+                            className="inline-flex items-center h-8 rounded-full border border-white/25 bg-white/10 px-3 text-xs text-white/90 hover:bg-white/15 hover:text-white hover:border-white/35 transition"
                         >
                             Search
                         </button>
-
                         <ThemeToggle />
                     </div>
                 </div>
