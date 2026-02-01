@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import ThemeProvider from "@/components/ThemeProvider";
-import { Inter, Sora } from "next/font/google";
+import { Inter, Fraunces } from "next/font/google";
 import { site } from "@/lib/Seo";
 import React from "react";
 
@@ -11,7 +11,7 @@ const inter = Inter({
     variable: "--font-body",
 });
 
-const sora = Sora({
+const fraunces = Fraunces({
     subsets: ["latin"],
     weight: ["600", "700"],
     variable: "--font-heading",
@@ -19,10 +19,7 @@ const sora = Sora({
 
 export const metadata: Metadata = {
     metadataBase: new URL(site.url),
-    title: {
-        default: `${site.name} — African Football, Beyond the Pitch`,
-        template: `%s — ${site.name}`,
-    },
+    title: { default: `${site.name} — African Football, Beyond the Pitch`, template: `%s — ${site.name}` },
     description: site.description,
     openGraph: {
         type: "website",
@@ -31,21 +28,14 @@ export const metadata: Metadata = {
         description: site.description,
         images: [{ url: site.ogImage, width: 1200, height: 630, alt: site.name }],
     },
-    twitter: {
-        card: "summary_large_image",
-        title: `${site.name} — African Football, Beyond the Pitch`,
-        description: site.description,
-        images: [site.ogImage],
-    },
-    icons: {
-        icon: "/favicon.ico",
-    },
+    twitter: { card: "summary_large_image", title: `${site.name} — African Football, Beyond the Pitch`, description: site.description, images: [site.ogImage] },
+    icons: { icon: "/favicon.ico" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en" suppressHydrationWarning>
-        <body className={`${inter.variable} ${sora.variable} font-body`}>
+        <body className={`${inter.variable} ${fraunces.variable} font-body`}>
         <ThemeProvider>{children}</ThemeProvider>
         </body>
         </html>

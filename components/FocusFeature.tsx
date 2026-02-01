@@ -22,8 +22,7 @@ export default function FocusFeature({ story }: { story: Story }) {
             <div className="lg:col-span-5 flex flex-col justify-between">
                 <div>
                     {/* ✅ was: category */}
-                    <Badge label={story.pillar} />
-
+                    <Badge label="News" variant="news" />
                     {/* ✅ quiet meta: format + location */}
                     <div className="mt-3 text-xs text-muted">
                         {story.format}

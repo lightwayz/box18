@@ -5,23 +5,39 @@ export default {
     theme: {
         extend: {
             colors: {
+                // Base surfaces
                 bg: "hsl(var(--bg))",
+                surface: "hsl(var(--surface))",
                 card: "hsl(var(--card))",
+
+                // Text + borders
                 ink: "hsl(var(--ink))",
                 muted: "hsl(var(--muted))",
                 border: "hsl(var(--border))",
-                accent: "hsl(var(--accent))",
-                accent2: "hsl(var(--accent2))",
+
+                // Foxiz Focus brand system
+                primary: "hsl(var(--primary))", // navy header
+                primaryFg: "hsl(var(--primary-fg))", // text on navy (usually white)
+
+                accent: "hsl(var(--accent))", // yellow
+                accentFg: "hsl(var(--accent-fg))", // text on yellow (usually navy/black)
+
+                danger: "hsl(var(--danger))", // red
+                info: "hsl(var(--info))", // cyan/blue
+
                 ring: "hsl(var(--ring))",
             },
+
             fontFamily: {
                 heading: ["var(--font-heading)", "ui-sans-serif", "system-ui"],
                 body: ["var(--font-body)", "ui-sans-serif", "system-ui"],
             },
+
             boxShadow: {
-                soft: "0 12px 40px rgba(0,0,0,0.18)",
-                glass: "0 10px 40px rgba(0,0,0,0.25)",
+                soft: "0 10px 30px rgba(0,0,0,0.12)",
+                glass: "0 10px 40px rgba(0,0,0,0.18)",
             },
+
             borderRadius: {
                 xl2: "1.25rem",
                 xl3: "1.75rem",

@@ -50,21 +50,21 @@ export default function SearchModal({
 
     return (
         <div className="fixed inset-0 z-[60]">
-            {/* Backdrop (stronger so hero text doesn't fight the modal) */}
+            {/* Backdrop (Foxiz: clean overlay, not glass) */}
             <button
-                className="absolute inset-0 bg-black/65"
+                className="absolute inset-0 bg-black/55 dark:bg-black/70"
                 aria-label="Close search"
                 onClick={onCloseAction}
             />
 
             {/* Panel */}
-            <div className="relative max-w-3xl mx-auto mt-24 px-4 sm:px-6">
+            <div className="relative max-w-3xl mx-auto mt-20 sm:mt-24 px-4 sm:px-6">
                 <div
-                    className="
-            rounded-3xl border border-border overflow-hidden
-            bg-[hsla(var(--bg)/0.96)] dark:bg-[hsla(var(--bg)/0.97)]
-            backdrop-blur-2xl shadow-2xl
-          "
+                    className={[
+                        "rounded-3xl overflow-hidden",
+                        // ✅ consistent surface in light + dark
+                        "glass",
+                    ].join(" ")}
                 >
                     {/* Header */}
                     <div className="p-5 sm:p-6 border-b border-border flex items-center gap-3">
@@ -75,23 +75,23 @@ export default function SearchModal({
                             value={q}
                             onChange={(e) => setQ(e.target.value)}
                             placeholder="Search football, diaspora, video, academies…"
-                            className="
-                w-full rounded-xl px-3 py-2
-                bg-[hsla(var(--bg)/0.98)]
-                border border-border
-                outline-none text-ink placeholder:text-muted
-                text-sm sm:text-base
-                focus:ring-2 focus:ring-[hsla(var(--accent)/0.35)]
-              "
+                            className={[
+                                "w-full rounded-xl px-3 py-2 text-sm sm:text-base outline-none",
+                                // ✅ no bg-white; always token-driven
+                                "bg-bg border border-border text-ink placeholder:text-muted",
+                                "focus:ring-2 focus:ring-accent focus:border-primary/40",
+                                "dark:bg-surface dark:border-border dark:focus:border-accent/40",
+                            ].join(" ")}
                         />
 
                         <button
                             onClick={onCloseAction}
-                            className="
-                rounded-full border border-border
-                bg-[hsla(var(--bg)/0.9)]
-                px-3 py-1 text-xs text-muted hover:text-ink
-              "
+                            className={[
+                                "rounded-full px-3 py-1 text-xs font-semibold border transition",
+                                // ✅ token-driven; consistent in both modes
+                                "bg-surface border-border text-muted hover:text-ink",
+                            ].join(" ")}
+                            title="Press Esc"
                         >
                             Esc
                         </button>
@@ -108,17 +108,17 @@ export default function SearchModal({
                         ) : results.length === 0 ? (
                             <div className="text-sm text-muted">No results found.</div>
                         ) : (
-                            <div className="space-y-3">
+                            <div className="divide-y divide-border rounded-2xl border border-border overflow-hidden bg-card">
                                 {results.slice(0, 8).map((r) => (
                                     <a
                                         key={r.id}
                                         href={r.href}
                                         onClick={onCloseAction}
-                                        className="
-                      block rounded-2xl border border-border p-4
-                      bg-[hsla(var(--bg)/0.92)] dark:bg-[hsla(var(--bg)/0.94)]
-                      hover:opacity-95 transition
-                    "
+                                        className={[
+                                            "block p-4 transition-colors",
+                                            // ✅ token-driven hover in both modes
+                                            "bg-card hover:bg-surface",
+                                        ].join(" ")}
                                     >
                                         <div className="text-xs text-muted">
                                             {r.pillar} • {r.format}
