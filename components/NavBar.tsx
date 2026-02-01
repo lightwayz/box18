@@ -54,6 +54,7 @@ export default function NavBar() {
 
     const today = useMemo(() => formatToday(), []);
 
+    // Highlight category chips on /category/*
     const activeCategory = useMemo(() => {
         const match = topCategories.find((c) => pathname?.startsWith(c.href));
         return match?.href ?? "";
@@ -62,7 +63,7 @@ export default function NavBar() {
     return (
         <header className="sticky top-0 z-50">
             {/* ---------------------------
-          TIER 1: Utility Bar
+          TIER 1: Utility Bar (date + desktop categories + actions)
       ---------------------------- */}
             <div className="bg-[hsl(var(--primary))] text-white border-b border-white/10">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 h-10 grid grid-cols-3 items-center gap-3">
@@ -98,37 +99,11 @@ export default function NavBar() {
                         <ThemeToggle />
                     </div>
                 </div>
-
-                {/* ✅ Mobile chip row (Option A) */}
-                <div className="md:hidden border-t border-white/10 relative">
-                    {/* Fade to hint horizontal scroll */}
-                    <div className="pointer-events-none absolute right-0 top-0 h-full w-12 bg-gradient-to-l from-[hsl(var(--primary))] to-transparent" />
-                    <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                        <div className="flex items-center gap-2 py-2 overflow-x-auto whitespace-nowrap no-scrollbar">
-                            {topCategories.map((item) => {
-                                const active = activeCategory === item.href;
-                                return (
-                                    <a
-                                        key={item.label}
-                                        href={item.href}
-                                        className={[
-                                            "shrink-0 rounded-full border px-3.5 py-1.5 text-sm transition",
-                                            active
-                                                ? "border-white/35 bg-white/15 text-white"
-                                                : "border-white/20 bg-white/5 text-white/90 hover:bg-white/10",
-                                        ].join(" ")}
-                                    >
-                                        {item.label}
-                                    </a>
-                                );
-                            })}
-                        </div>
-                    </div>
-                </div>
             </div>
 
             {/* ---------------------------
-          TIER 2: Main Nav Bar
+          TIER 2: Main Nav Bar (logo + desktop nav + partner)
+          + mobile merged nav strip (mainNav + category chips)
       ---------------------------- */}
             <div className="bg-[hsl(var(--primary))] text-white">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 h-[68px] flex items-center justify-between gap-4">
@@ -244,27 +219,54 @@ export default function NavBar() {
                     </div>
                 </div>
 
-                {/* Mobile nav */}
-                <div className="lg:hidden border-t border-white/15">
-                    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-2 flex gap-4 overflow-x-auto text-sm no-scrollbar">
-                        {mainNav.map((item) => {
-                            const active = isActiveMain(item.href);
-                            return (
-                                <a
-                                    key={item.label}
-                                    href={item.href}
-                                    className={[
-                                        "whitespace-nowrap relative py-2",
-                                        active ? "text-white" : "text-white/85 hover:text-white",
-                                    ].join(" ")}
-                                >
-                                    {item.label}
-                                    {active && (
-                                        <span className="absolute left-0 right-0 -bottom-1 h-[2px] bg-[hsl(var(--accent))]" />
-                                    )}
-                                </a>
-                            );
-                        })}
+                {/* ✅ Mobile: ONE merged strip (main nav and category chips) */}
+                <div className="lg:hidden border-t border-white/15 relative">
+                    <div className="pointer-events-none absolute right-0 top-0 h-full w-12 bg-gradient-to-l from-[hsl(var(--primary))] to-transparent" />
+
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-2">
+                        <div className="flex items-center gap-3 overflow-x-auto whitespace-nowrap no-scrollbar text-sm">
+                            {/* Main nav links */}
+                            {mainNav.map((item) => {
+                                const active = isActiveMain(item.href);
+                                return (
+                                    <a
+                                        key={item.label}
+                                        href={item.href}
+                                        className={[
+                                            "relative py-2",
+                                            active ? "text-white" : "text-white/85 hover:text-white",
+                                        ].join(" ")}
+                                    >
+                                        {item.label}
+                                        {active && (
+                                            <span className="absolute left-0 right-0 -bottom-1 h-[2px] bg-[hsl(var(--accent))]" />
+                                        )}
+                                    </a>
+                                );
+                            })}
+
+                            {/* separator */}
+                            <span className="mx-1 h-1 w-1 rounded-full bg-white/25 shrink-0" />
+
+                            {/* Category chips */}
+                            {topCategories.map((item) => {
+                                const active = activeCategory === item.href;
+                                return (
+                                    <a
+                                        key={item.label}
+                                        href={item.href}
+                                        className={[
+                                            "shrink-0 rounded-full border px-3 py-1.5 text-sm transition",
+                                            active
+                                                ? "border-white/35 bg-white/15 text-white"
+                                                : "border-white/20 bg-white/5 text-white/90 hover:bg-white/10",
+                                        ].join(" ")}
+                                    >
+                                        {item.label}
+                                    </a>
+                                );
+                            })}
+                        </div>
                     </div>
                 </div>
             </div>
