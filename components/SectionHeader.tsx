@@ -10,7 +10,9 @@ export default function SectionHeader({
     return (
         <div className="flex items-end justify-between gap-6">
             <div>
-                <h2 className="font-heading text-2xl tracking-tight">{title}</h2>
+                <h2 className="font-heading text-2xl tracking-tight whitespace-normal break-words">
+                    {title}
+                </h2>
                 {subtitle ? <p className="mt-1 text-sm text-muted">{subtitle}</p> : null}
             </div>
 

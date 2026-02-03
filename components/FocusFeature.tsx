@@ -7,7 +7,7 @@ export default function FocusFeature({ story }: { story: Story }) {
 
     return (
         <div id="focus" className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-            <div className="lg:col-span-7 overflow-hidden rounded-3xl border border-divider shadow-soft">
+            <div className="lg:col-span-7 overflow-hidden rounded-3xl border border-border shadow-soft">
                 <div className="relative aspect-[16/10]">
                     <Image
                         src={story.image}
@@ -19,32 +19,33 @@ export default function FocusFeature({ story }: { story: Story }) {
                 </div>
             </div>
 
-            <div className="lg:col-span-5 flex flex-col justify-between">
-                <div>
-                    {/* ✅ was: category */}
+            <div className="lg:col-span-5 flex flex-col justify-between min-w-0">
+                <div className="min-w-0">
                     <Badge label="News" variant="news" />
-                    {/* ✅ quiet meta: format + location */}
-                    <div className="mt-3 text-xs text-muted">
+
+                    <div className="mt-3 text-xs text-muted break-words">
                         {story.format}
                         {story.location ? ` • ${story.location}` : ""} • {story.date}
                     </div>
 
-                    <h2 className="mt-4 font-heading text-3xl leading-tight tracking-tight">
+                    {/* ✅ FORCE WRAP + prevent overflow */}
+                    <h2 className="mt-4 font-heading text-3xl leading-tight tracking-tight !whitespace-normal !break-words max-w-full overflow-hidden">
                         {story.title}
                     </h2>
 
-                    {/* ✅ was: excerpt */}
                     {story.caption ? (
-                        <p className="mt-4 text-ink/80">{story.caption}</p>
+                        <p className="mt-4 text-ink whitespace-normal break-words">
+                            {story.caption}
+                        </p>
                     ) : null}
 
-                    <div className="mt-6 text-sm text-muted">{story.author}</div>
+                    <div className="mt-6 text-sm text-muted break-words">{story.author}</div>
                 </div>
 
                 <div className="mt-8">
                     <a
                         href={story.href}
-                        className="inline-flex items-center rounded-full bg-accent text-paper px-5 py-2 text-sm font-medium hover:opacity-90"
+                        className="inline-flex items-center rounded-full bg-[hsl(var(--accent))] text-[hsl(var(--accent-fg))] px-5 py-2 text-sm font-bold border border-border hover:brightness-95 transition"
                     >
                         {isVideo ? "Watch Feature" : "Read Feature"}
                     </a>

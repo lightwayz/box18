@@ -10,20 +10,27 @@ export default function Badge({
     return (
         <span
             className={[
-                "inline-flex items-center rounded-full px-3 py-1",
-                "text-[11px] font-bold tracking-wider uppercase",
-                "border transition-colors",
+                "inline-flex items-center rounded-full",
+                // ✅ smaller + safer on mobile
+                "px-2.5 py-1",
+                // ✅ keep it crisp but not too wide
+                "text-[10px] sm:text-[11px] font-bold uppercase",
+                // ✅ reduce tracking so it doesn't expand too much
+                "tracking-[0.08em]",
+                // ✅ never force a single line wider than the card
+                "max-w-full overflow-hidden text-ellipsis whitespace-nowrap",
+                "border",
                 isNews
                     ? "bg-[hsl(var(--danger))] text-white border-[hsl(var(--danger))]"
                     : [
-                        // ✅ readable in BOTH modes
-                        "bg-white text-ink border-border",
-                        "dark:bg-card dark:text-ink dark:border-border",
-                        // ✅ hover feedback
-                        "hover:bg-surface hover:border-[hsl(var(--accent))]/40",
-                        "dark:hover:bg-surface dark:hover:border-[hsl(var(--accent))]/35",
+                        // ✅ light-only solid pill
+                        "bg-[hsl(var(--card))] text-[hsl(var(--ink))] border-[hsl(var(--border))]",
+                        // ✅ solid hover (no transparency)
+                        "hover:bg-[hsl(var(--surface))] hover:border-[hsl(var(--accent))]",
+                        "transition-colors",
                     ].join(" "),
             ].join(" ")}
+            title={label}
         >
       {label}
     </span>

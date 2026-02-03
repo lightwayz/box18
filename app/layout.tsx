@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import ThemeProvider from "@/components/ThemeProvider";
 import { Inter, Fraunces } from "next/font/google";
 import { site } from "@/lib/Seo";
 import React from "react";
@@ -28,15 +27,20 @@ export const metadata: Metadata = {
         description: site.description,
         images: [{ url: site.ogImage, width: 1200, height: 630, alt: site.name }],
     },
-    twitter: { card: "summary_large_image", title: `${site.name} — African Football, Beyond the Pitch`, description: site.description, images: [site.ogImage] },
+    twitter: {
+        card: "summary_large_image",
+        title: `${site.name} — African Football, Beyond the Pitch`,
+        description: site.description,
+        images: [site.ogImage],
+    },
     icons: { icon: "/favicon.ico" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="en" suppressHydrationWarning>
+        <html lang="en">
         <body className={`${inter.variable} ${fraunces.variable} font-body`}>
-        <ThemeProvider>{children}</ThemeProvider>
+        {children}
         </body>
         </html>
     );

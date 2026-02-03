@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useMemo, useState } from "react";
 import { usePathname } from "next/navigation";
 
-import ThemeToggle from "./ThemeToggle";
 import SearchModal from "./SearchModal";
 import useScrollSpy from "./useScrollSpy";
 
@@ -54,7 +53,6 @@ export default function NavBar() {
 
     const today = useMemo(() => formatToday(), []);
 
-    // Highlight category chips on /category/*
     const activeCategory = useMemo(() => {
         const match = topCategories.find((c) => pathname?.startsWith(c.href));
         return match?.href ?? "";
@@ -63,48 +61,42 @@ export default function NavBar() {
     return (
         <header className="sticky top-0 z-50">
             {/* ---------------------------
-          TIER 1: Utility Bar (date + desktop categories + actions)
+          TIER 1: Utility Bar (HIDE ON MOBILE)
       ---------------------------- */}
-            <div className="bg-[hsl(var(--primary))] text-white border-b border-white/10">
+            <div className="hidden sm:block bg-[hsl(var(--primary))] text-[hsl(var(--primary-fg))] border-b border-white">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 h-10 grid grid-cols-3 items-center gap-3">
                     {/* Left: date */}
-                    <div className="hidden sm:flex items-center gap-3 text-xs text-white/85 justify-self-start">
-                        <span className="font-semibold text-white/90">{today}</span>
-                        <span className="hidden md:inline text-white/35">•</span>
-                        <span className="hidden md:inline text-white/70">BOX18 Editorial</span>
+                    <div className="hidden sm:flex items-center gap-3 text-xs justify-self-start">
+                        <span className="font-semibold">{today}</span>
+                        <span className="hidden md:inline">•</span>
+                        <span className="hidden md:inline">BOX18 Editorial</span>
                     </div>
 
                     {/* Center: categories (Desktop only) */}
                     <nav className="hidden md:flex items-center justify-center gap-4 text-xs sm:text-sm justify-self-center">
                         {topCategories.map((item) => (
-                            <a
-                                key={item.label}
-                                href={item.href}
-                                className="py-2 text-white/65 hover:text-white/90 transition-colors"
-                            >
+                            <a key={item.label} href={item.href} className="py-2 hover:text-white">
                                 {item.label}
                             </a>
                         ))}
                     </nav>
 
-                    {/* Right: actions */}
-                    <div className="flex items-center gap-2 sm:gap-3 justify-self-end">
+                    {/* Right: Search only */}
+                    <div className="flex items-center gap-2 justify-self-end">
                         <button
                             onClick={() => setSearchOpen(true)}
-                            className="inline-flex items-center h-8 rounded-full border border-white/25 bg-white/10 px-3 text-xs text-white/90 hover:bg-white/15 hover:text-white hover:border-white/35 transition"
+                            className="inline-flex items-center h-8 rounded-full bg-[hsl(var(--primary-fg))] text-[hsl(var(--primary))] px-3 text-xs font-semibold hover:opacity-95 transition"
                         >
                             Search
                         </button>
-                        <ThemeToggle />
                     </div>
                 </div>
             </div>
 
             {/* ---------------------------
-          TIER 2: Main Nav Bar (logo + desktop nav + partner)
-          + mobile merged nav strip (mainNav + category chips)
+          TIER 2: Main Nav Bar
       ---------------------------- */}
-            <div className="bg-[hsl(var(--primary))] text-white">
+            <div className="bg-[hsl(var(--primary))] text-[hsl(var(--primary-fg))]">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 h-[68px] flex items-center justify-between gap-4">
                     {/* Logo */}
                     <a
@@ -112,7 +104,7 @@ export default function NavBar() {
                         className="inline-flex items-center gap-3 font-heading tracking-tight whitespace-nowrap"
                         aria-label="BOX18 Naija home"
                     >
-            <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white border border-white/30">
+            <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white border border-white">
               <Image
                   src="/brand/box18-mark.png"
                   alt=""
@@ -124,8 +116,8 @@ export default function NavBar() {
             </span>
 
                         <span className="flex items-baseline gap-1">
-              <span className="text-lg font-bold tracking-tight text-white">BOX18</span>
-              <span className="text-lg tracking-tight text-white/80">Naija</span>
+              <span className="text-lg font-bold tracking-tight">BOX18</span>
+              <span className="text-lg tracking-tight">Naija</span>
             </span>
                     </a>
 
@@ -138,13 +130,14 @@ export default function NavBar() {
                                     key={item.label}
                                     href={item.href}
                                     className={[
-                                        "relative py-2 transition-colors",
-                                        active ? "text-white" : "text-white/85 hover:text-white",
+                                        "relative py-2 pb-3 transition-colors",
+                                        active ? "font-semibold text-white" : "text-white/90 hover:text-white",
                                     ].join(" ")}
                                 >
                                     {item.label}
+                                    {/* ✅ Yellow active indicator */}
                                     {active && (
-                                        <span className="absolute left-0 right-0 -bottom-3 h-[2px] bg-[hsl(var(--accent))]" />
+                                        <span className="absolute left-0 right-0 bottom-0 h-[2px] bg-[hsl(var(--accent))]" />
                                     )}
                                 </a>
                             );
@@ -155,24 +148,17 @@ export default function NavBar() {
                             <details className="group">
                                 <summary
                                     className={[
-                                        "list-none cursor-pointer select-none py-2",
-                                        "text-sm text-white/85 hover:text-white transition-colors",
-                                        "focus:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))]/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--primary))]",
+                                        "list-none cursor-pointer select-none py-2 pb-3",
+                                        "text-sm text-white/90 hover:text-white transition-colors",
                                         "inline-flex items-center gap-1",
+                                        "focus:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))] focus-visible:ring-offset-2 focus-visible:ring-offset-[hsl(var(--primary))]",
                                     ].join(" ")}
                                 >
                                     Sections
                                     <span className="inline-block group-open:rotate-180 transition-transform">▾</span>
                                 </summary>
 
-                                <div
-                                    className={[
-                                        "absolute left-0 mt-3 w-72 overflow-hidden rounded-2xl",
-                                        "glass border border-border shadow-soft",
-                                        "text-ink",
-                                        "z-[90]",
-                                    ].join(" ")}
-                                >
+                                <div className={["absolute left-0 mt-3 w-72 overflow-hidden rounded-2xl", "glass", "text-[hsl(var(--ink))]", "z-[90]"].join(" ")}>
                                     <div className="p-2">
                                         {sections.map((s) => {
                                             const active = isHome ? spy === s.anchor : pathname === s.route;
@@ -183,14 +169,13 @@ export default function NavBar() {
                                                     href={sectionHref(s)}
                                                     className={[
                                                         "group/item flex items-center justify-between rounded-xl px-3 py-2 text-sm",
-                                                        "transition-colors",
-                                                        active ? "bg-surface text-ink" : "text-muted hover:bg-surface hover:text-ink",
-                                                        "focus:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--accent))]/60",
+                                                        active
+                                                            ? "bg-[hsl(var(--surface))] text-[hsl(var(--ink))]"
+                                                            : "text-[hsl(var(--muted))] hover:bg-[hsl(var(--surface))] hover:text-[hsl(var(--ink))]",
+                                                        "focus:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
                                                     ].join(" ")}
                                                 >
-                          <span className="transition-transform group-hover/item:translate-x-[1px]">
-                            {s.label}
-                          </span>
+                                                    <span className="transition-transform group-hover/item:translate-x-[1px]">{s.label}</span>
 
                                                     <span
                                                         className={[
@@ -207,24 +192,29 @@ export default function NavBar() {
                         </div>
                     </nav>
 
-                    {/* Partner */}
-                    <div className="flex items-center justify-end min-w-[140px]">
+                    {/* Partner + Mobile Search */}
+                    <div className="flex items-center justify-end gap-2 min-w-[170px]">
+                        {/* Mobile Search */}
+                        <button
+                            onClick={() => setSearchOpen(true)}
+                            className="sm:hidden inline-flex items-center h-9 rounded-full bg-white text-[hsl(var(--primary))] px-4 text-sm font-semibold hover:opacity-95 transition"
+                        >
+                            Search
+                        </button>
+
                         <a
                             href={isHome ? "#partner" : "/#partner"}
-                            className="inline-flex items-center rounded-full bg-[hsl(var(--accent))] text-[hsl(var(--primary))] font-bold px-5 py-2 text-sm hover:-translate-y-0.5 transition shadow-sm"
+                            className="inline-flex items-center rounded-full bg-[hsl(var(--accent))] text-[hsl(var(--accent-fg))] font-bold px-5 py-2 text-sm hover:-translate-y-0.5 transition shadow-sm"
                         >
                             Partner
                         </a>
                     </div>
                 </div>
 
-                {/* ✅ Mobile: ONE merged strip (main nav and category chips) */}
-                <div className="lg:hidden border-t border-white/15 relative">
-                    <div className="pointer-events-none absolute right-0 top-0 h-full w-12 bg-gradient-to-l from-[hsl(var(--primary))] to-transparent" />
-
+                {/* Mobile: ONE merged strip (main nav + category chips) */}
+                <div className="lg:hidden border-t border-white">
                     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-2">
-                        <div className="flex items-center gap-3 overflow-x-auto whitespace-nowrap no-scrollbar text-sm">
-                            {/* Main nav links */}
+                        <div className="flex items-center gap-3 overflow-x-auto whitespace-nowrap no-scrollbar text-sm overscroll-x-contain">
                             {mainNav.map((item) => {
                                 const active = isActiveMain(item.href);
                                 return (
@@ -232,22 +222,21 @@ export default function NavBar() {
                                         key={item.label}
                                         href={item.href}
                                         className={[
-                                            "relative py-2",
-                                            active ? "text-white" : "text-white/85 hover:text-white",
+                                            "relative py-2 pb-3 transition-colors",
+                                            active ? "font-semibold text-white" : "text-white/90 hover:text-white",
                                         ].join(" ")}
                                     >
                                         {item.label}
+                                        {/* ✅ Yellow active indicator (mobile) */}
                                         {active && (
-                                            <span className="absolute left-0 right-0 -bottom-1 h-[2px] bg-[hsl(var(--accent))]" />
+                                            <span className="absolute left-0 right-0 bottom-0 h-[2px] bg-[hsl(var(--accent))]" />
                                         )}
                                     </a>
                                 );
                             })}
 
-                            {/* separator */}
-                            <span className="mx-1 h-1 w-1 rounded-full bg-white/25 shrink-0" />
+                            <span className="mx-1 h-1 w-1 rounded-full bg-white shrink-0" />
 
-                            {/* Category chips */}
                             {topCategories.map((item) => {
                                 const active = activeCategory === item.href;
                                 return (
@@ -257,8 +246,8 @@ export default function NavBar() {
                                         className={[
                                             "shrink-0 rounded-full border px-3 py-1.5 text-sm transition",
                                             active
-                                                ? "border-white/35 bg-white/15 text-white"
-                                                : "border-white/20 bg-white/5 text-white/90 hover:bg-white/10",
+                                                ? "border-[hsl(var(--accent))] text-[hsl(var(--primary-fg))]"
+                                                : "border-white text-[hsl(var(--primary-fg))]",
                                         ].join(" ")}
                                     >
                                         {item.label}

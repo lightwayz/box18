@@ -1,32 +1,46 @@
+// lib/content.ts
 
 export type Pillar = "Football" | "Culture" | "Business" | "Tech" | "Diaspora" | "Talent";
 export type Format = "Essay" | "Interview" | "Photo Essay" | "Video" | "Data Brief";
+
+export type StoryVideo = {
+    youtubeId: string;
+    duration?: string; // "6:24"
+};
 
 export type Story = {
     id: string;
     title: string;
 
     // editorial identity
-    pillar: Pillar;       // 1 primary identity
-    format: Format;       // 1 content format
-    topics: string[];     // 1–3 secondary topics (tags)
+    pillar: Pillar; // 1 primary identity
+    format: Format; // 1 content format
+    topics: string[]; // 1–3 secondary topics (tags)
 
     // “real reporting” signals
-    location?: string;    // Lagos, Accra, Banjul, London…
+    location?: string; // Lagos, Accra, Banjul, London…
     date: string;
     author: string;
 
     // media-first
     image: string;
     imageAlt?: string;
-    caption?: string;     // one strong image-led line
-    video?: {
-        youtubeId: string;
-        duration?: string;  // "6:24"
-    };
+    caption?: string; // one strong image-led line
+    video?: StoryVideo;
 
     href: string;
 };
+
+export type CategoryKey = "talent" | "business" | "tech" | "culture" | "diaspora";
+
+// ✅ Section metadata (so UI labels/hrefs aren't hard-coded in components)
+export const categoryMeta: Record<CategoryKey, { label: string; href: string }> = {
+    talent: { label: "Talent Spotlight", href: "/category/talent" },
+    business: { label: "Business", href: "/category/business" },
+    tech: { label: "Tech", href: "/category/tech" },
+    culture: { label: "Culture & Lifestyle", href: "/category/culture" },
+    diaspora: { label: "Diaspora", href: "/category/diaspora" },
+} as const;
 
 // ✅ Focus story (hero)
 export const focusStory: Story = {
@@ -102,9 +116,11 @@ export const topStories: Story[] = [
         date: "Jan 26, 2026",
         author: "BOX18 Editorial",
         href: "#",
+        video: { youtubeId: "t9Hb_-PF4f4", duration: "4:58" }, // ✅ add if you treat this as a video card
     },
 ];
 
+// ✅ Video Stories (rail)
 export const videoStories: Story[] = [
     {
         id: "v1",
@@ -153,9 +169,7 @@ export const videoStories: Story[] = [
     },
 ];
 
-type CategoryKey = "talent" | "business" | "tech" | "culture" | "diaspora";
-
-// ✅ Sections (each section is not the same as pillar — it’s homepage grouping)
+// ✅ Sections (homepage grouping; not the same as pillar)
 export const categories: Record<CategoryKey, Story[]> = {
     talent: [
         {
@@ -170,7 +184,7 @@ export const categories: Record<CategoryKey, Story[]> = {
             imageAlt: "A young player training outdoors",
             date: "Jan 27, 2026",
             author: "BOX18 Editorial",
-            href: "/category/talent",
+            href: categoryMeta.talent.href, // ✅ single source of truth
         },
         {
             id: "t2",
@@ -184,7 +198,7 @@ export const categories: Record<CategoryKey, Story[]> = {
             imageAlt: "A pitch-side scene at training",
             date: "Jan 27, 2026",
             author: "BOX18 Editorial",
-            href: "/category/talent",
+            href: categoryMeta.talent.href, // ✅ single source of truth
         },
     ],
 
@@ -201,7 +215,7 @@ export const categories: Record<CategoryKey, Story[]> = {
             imageAlt: "A stadium-wide view",
             date: "Jan 27, 2026",
             author: "BOX18 Editorial",
-            href: "/category/business",
+            href: categoryMeta.business.href,
         },
         {
             id: "b2",
@@ -215,7 +229,7 @@ export const categories: Record<CategoryKey, Story[]> = {
             imageAlt: "A community football scene",
             date: "Jan 27, 2026",
             author: "BOX18 Editorial",
-            href: "/category/business",
+            href: categoryMeta.business.href,
         },
     ],
 
@@ -232,7 +246,7 @@ export const categories: Record<CategoryKey, Story[]> = {
             imageAlt: "A stadium and pitch captured from above",
             date: "Jan 27, 2026",
             author: "BOX18 Editorial",
-            href: "/category/tech",
+            href: categoryMeta.tech.href,
         },
         {
             id: "tech2",
@@ -246,7 +260,7 @@ export const categories: Record<CategoryKey, Story[]> = {
             imageAlt: "A player in action on a green field",
             date: "Jan 27, 2026",
             author: "BOX18 Editorial",
-            href: "/category/tech",
+            href: categoryMeta.tech.href,
         },
     ],
 
@@ -263,7 +277,7 @@ export const categories: Record<CategoryKey, Story[]> = {
             imageAlt: "A jersey and fan-culture scene",
             date: "Jan 27, 2026",
             author: "BOX18 Editorial",
-            href: "/category/culture",
+            href: categoryMeta.culture.href,
         },
         {
             id: "c2",
@@ -277,7 +291,9 @@ export const categories: Record<CategoryKey, Story[]> = {
             imageAlt: "A child playing football outdoors",
             date: "Jan 27, 2026",
             author: "BOX18 Editorial",
-            href: "/category/culture",
+            href: categoryMeta.culture.href,
+            // (optional) add video if this is a real video card
+            // video: { youtubeId: "...", duration: "..." },
         },
     ],
 
@@ -294,7 +310,7 @@ export const categories: Record<CategoryKey, Story[]> = {
             imageAlt: "A community gathering around football",
             date: "Jan 27, 2026",
             author: "BOX18 Editorial",
-            href: "/category/diaspora",
+            href: categoryMeta.diaspora.href,
         },
         {
             id: "d2",
@@ -308,11 +324,12 @@ export const categories: Record<CategoryKey, Story[]> = {
             imageAlt: "A player mid-kick on a pitch",
             date: "Jan 27, 2026",
             author: "BOX18 Editorial",
-            href: "/category/diaspora",
+            href: categoryMeta.diaspora.href,
         },
     ],
 };
 
+// ✅ Search index
 export const allStories: Story[] = [
     focusStory,
     ...topStories,
@@ -320,11 +337,5 @@ export const allStories: Story[] = [
     ...Object.values(categories).flat(),
 ];
 
-
-export const trending = [
-    "#AFCON2025",
-    "#NigerianFootball",
-    "#StreetToStadium",
-    "#JerseyCulture",
-    "#DiasporaRoots",
-];
+// ✅ Trending chips
+export const trending = ["#AFCON2025", "#NigerianFootball", "#StreetToStadium", "#JerseyCulture", "#DiasporaRoots"];

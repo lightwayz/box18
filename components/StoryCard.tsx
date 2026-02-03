@@ -55,7 +55,7 @@ export default function StoryCard({
             <div className="p-5">
                 <div className="flex items-center justify-between gap-3">
                     {/* ✅ Pillar is the identity badge */}
-                    <Badge label="News" variant="news" />
+                    {/*<Badge label="News" variant="news" />*/}
                     <span className="text-xs text-muted">{story.date}</span>
                 </div>
 

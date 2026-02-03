@@ -1,40 +1,22 @@
 @import "tailwindcss";
 
-/* keep your custom css below */
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* keep your custom css below */
+
 /* -----------------------------
-   THEME TOKENS (Light + Dark)
-   Goal: Match foxiz.io/focus
+   THEME TOKENS (LIGHT ONLY)
+   Goal: Foxiz Focus feel (solid, stable)
 -------------------------------- */
 
 html {
   scroll-behavior: smooth;
 }
-html,
-body {
-  overflow-x: clip; /* modern + best */
-}
-
-/* fallback for older browsers */
-@supports not (overflow: clip) {
-  html,
-  body {
-    overflow-x: hidden;
-  }
-}
-
-/* extra safety: keep ambient glow from expanding layout */
-.bg-ambient {
-  overflow-x: clip;
-}
-
 
 :root {
-  /* LIGHT MODE */
+  /* LIGHT MODE ONLY */
   --bg: 0 0% 100%;
   --card: 0 0% 100%;
   --surface: 0 0% 97%;
@@ -42,61 +24,30 @@ body {
   --muted: 215 16% 45%;
   --border: 214 20% 90%;
 
-  /* Foxiz Focus brand (LOCKED across modes) */
-  --primary: 210 100% 18%;  /* navy */
-  --primary-fg: 0 0% 100%;  /* text on navy */
-
-  --accent: 48 100% 59%;    /* yellow */
-  --accent-fg: 222 47% 11%; /* text on yellow */
+  /* Brand */
+  --primary: 210 100% 18%;   /* navy */
+  --primary-fg: 0 0% 100%;   /* white */
+  --accent: 48 100% 59%;     /* yellow */
+  --accent-fg: 222 47% 11%;  /* dark text */
 
   --danger: 359 81% 50%;
   --info: 200 100% 38%;
 
-  /* Focus ring should match accent consistently */
   --ring: 48 100% 59%;
-
-  /* Glass tuning */
-  --glass-bg: 0 0% 100%;
-  --glass-alpha: 0.96;
-  --glass-border-alpha: 0.92;
-  --glass-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
 }
 
-.no-scrollbar::-webkit-scrollbar { display: none; }
-.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-.dark {
-  /* DARK MODE */
-  --bg: 222 47% 7%;
-  --card: 222 35% 10%;
-  --surface: 222 32% 12%;
-  --ink: 210 40% 96%;
-  --muted: 215 18% 72%;
-  --border: 222 24% 20%;
-
-  /* ✅ keep header navy identical to light mode */
-  --primary: 210 100% 18%;
-  --primary-fg: 0 0% 100%;
-
-  --accent: 48 100% 59%;
-  --accent-fg: 222 47% 11%;
-
-  --danger: 359 81% 55%;
-  --info: 200 100% 45%;
-
-  /* ✅ ring stays yellow in dark too */
-  --ring: 48 100% 59%;
-
-  /* Dark glass: slightly more transparent than before to avoid “blocky” panels */
-  --glass-bg: 222 35% 10%;
-  --glass-alpha: 0.84;           /* was 0.92 */
-  --glass-border-alpha: 0.78;    /* was 0.85 */
-  --glass-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
-}
-
+/* Prevent sideways “blank pan” */
 html,
 body {
   height: 100%;
+  overflow-x: clip; /* modern */
+}
+
+@supports not (overflow: clip) {
+  html,
+  body {
+    overflow-x: hidden; /* fallback */
+  }
 }
 
 body {
@@ -104,76 +55,50 @@ body {
   color: hsl(var(--ink));
 }
 
-/* Optional: selection matches Foxiz accents */
+/* Optional: selection (solid, no transparency) */
 ::selection {
-  background: hsla(var(--accent) / 0.35);
+  background: hsl(var(--accent));
+  color: hsl(var(--accent-fg));
 }
 
-/* Ambient gradients (subtle like Foxiz) */
-.bg-ambient {
-  position: relative;
-  isolation: isolate;
-}
+/* No-scrollbar utility (for horizontal strips) */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-.bg-ambient::before {
-  content: "";
-  position: absolute;
-  inset: -220px;
-  top: 80px;
-  z-index: -1;
-  background:
-          radial-gradient(900px 520px at 18% 10%, hsla(var(--primary) / 0.06), transparent 62%),
-          radial-gradient(700px 420px at 86% 18%, hsla(var(--accent) / 0.05), transparent 62%),
-          radial-gradient(900px 520px at 40% 96%, hsla(var(--info) / 0.04), transparent 65%);
-  filter: blur(18px);
-}
-
-.dark .bg-ambient::before {
-  background:
-          radial-gradient(900px 520px at 18% 10%, hsla(var(--primary) / 0.10), transparent 62%),
-          radial-gradient(700px 420px at 86% 18%, hsla(var(--accent) / 0.06), transparent 62%),
-          radial-gradient(900px 520px at 40% 96%, hsla(var(--info) / 0.06), transparent 65%);
-}
-
-/* Glass */
+/* “Glass” becomes SOLID card (keep class name so components don’t break) */
 .glass {
-  background: hsla(var(--glass-bg) / var(--glass-alpha));
-  border: 1px solid hsla(var(--border) / var(--glass-border-alpha));
-  box-shadow: var(--glass-shadow);
-  backdrop-filter: blur(10px);
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  backdrop-filter: none;
 }
 
 /* Cards */
 .card {
   background: hsl(var(--card));
-  border: 1px solid hsla(var(--border) / 0.95);
+  border: 1px solid hsl(var(--border));
   border-radius: 1.25rem;
+  overflow: hidden; /* important for rounded cards */
 }
 
-/* Chips */
+/* Chips (solid) */
 .chip {
-  background: hsla(var(--glass-bg) / 0.94);
-  border: 1px solid hsla(var(--border) / 0.95);
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
   color: hsl(var(--ink));
 }
 
-.dark .chip {
-  background: hsla(var(--glass-bg) / 0.50);
-  border: 1px solid hsla(var(--border) / 0.78);
-  color: hsl(var(--ink));
-}
-
-/* Accent underline */
+/* Accent underline (keep it but solid) */
 .accent-underline {
   text-decoration: underline;
   text-decoration-thickness: 0.22em;
   text-underline-offset: 0.12em;
-  text-decoration-color: hsla(var(--accent) / 0.55);
+  text-decoration-color: hsl(var(--accent));
 }
 
 /* Focus ring */
 :focus-visible {
-  outline: 2px solid hsla(var(--ring) / 0.60);
+  outline: 2px solid hsl(var(--ring));
   outline-offset: 3px;
 }
 
@@ -181,4 +106,15 @@ body {
 * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* ✅ HARD OVERRIDE: hero headings must wrap */
+@layer utilities {
+  .hero-title {
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+    word-break: break-word !important;
+    max-width: 100% !important;
+    display: block !important;
+  }
 }
